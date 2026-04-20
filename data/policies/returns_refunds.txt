@@ -1,0 +1,85 @@
+DOCUMENT: Bazario Returns and Refunds Policy
+VERSION: 2.1
+LAST UPDATED: March 2026
+
+SECTION 1: STANDARD RETURN WINDOW
+
+Customers may return most items within 30 days of the delivery date for a full refund. Items must be unused, in original packaging, and accompanied by proof of purchase. Returns initiated after 30 days but within 60 days may be eligible for store credit only, at Bazario discretion.
+
+For items fulfilled by Bazario directly (first-party), the return label is provided free of charge. For marketplace seller orders, the seller's return policy applies and may differ from Bazario standard terms.
+
+SECTION 2: REFUND PROCESSING
+
+Refunds are issued to the original payment method within 5–7 business days of the returned item being received and inspected. For UPI and digital wallet payments, refunds may take up to 10 business days depending on the payment provider.
+
+If the item is confirmed defective or damaged on arrival, a refund may be issued without requiring the item to be returned. Customers must provide photographic evidence of damage within 48 hours of delivery.
+
+SECTION 3: PERISHABLE ITEMS
+
+Perishable items — including food, beverages, flowers, and fresh produce — are not eligible for return due to health and safety regulations. However, if a perishable item arrives damaged, spoiled, or significantly delayed such that its quality is compromised, the customer is eligible for:
+
+- A full refund without requiring the item to be returned
+- Or a replacement shipment at Bazario discretion
+
+Customers must report perishable item issues within 24 hours of delivery. Claims submitted after 24 hours may not be eligible for a refund.
+
+Melted, crushed, or temperature-damaged food items qualify as compromised quality and are covered under this clause.
+
+SECTION 4: HYGIENE AND PERSONAL CARE ITEMS
+
+Hygiene items, personal care products, and undergarments cannot be returned once opened, for health and safety reasons. Unopened hygiene items may be returned within 30 days with original seal intact.
+
+If a hygiene item is received defective or damaged, a refund or replacement will be issued without return, subject to photographic evidence submitted within 48 hours.
+
+SECTION 5: ELECTRONICS
+
+Electronics may be returned within 30 days if unopened and in original packaging. Opened electronics are eligible for return only if defective. A restocking fee of 10% may apply to opened, non-defective electronics returned within the 30-day window.
+
+Extended warranty claims and manufacturer defects beyond the 30-day window should be directed to the manufacturer or handled through Bazario Buyer Protection (see Section 8).
+
+SECTION 6: FINAL SALE ITEMS
+
+Items marked as Final Sale at the time of purchase are not eligible for return, refund, or exchange under any circumstances, except in cases of:
+
+- Item arriving damaged or defective
+- Wrong item shipped by Bazario
+
+In these exception cases, customers must contact support within 48 hours of delivery with photographic evidence. Approved exceptions will receive a replacement or full refund.
+
+SECTION 7: APPAREL AND ACCESSORIES
+
+Apparel items may be returned within 30 days if unworn, unwashed, and with original tags attached. Items showing signs of wear, washing, or alteration are not eligible for return.
+
+Custom or personalized apparel items cannot be returned unless defective.
+
+SECTION 8: BUYER PROTECTION PROGRAM
+
+Bazario Buyer Protection covers:
+
+- Items not received within 10 days of expected delivery date
+- Items significantly not as described
+- Counterfeit or fraudulent items
+
+Claims under Buyer Protection must be submitted within 90 days of order date. Bazario will investigate and may issue a full refund or replacement at its discretion.
+
+SECTION 9: MARKETPLACE SELLER ORDERS
+
+For orders fulfilled by third-party marketplace sellers:
+
+- The seller's return policy takes precedence over Bazario standard terms
+- Sellers must offer a minimum 7-day return window by Bazario marketplace policy
+- If a seller refuses a valid return, customers may escalate to Bazario for mediation
+- Bazario reserves the right to issue a refund directly and recover costs from the seller
+
+Customers should always attempt resolution with the seller first before escalating to Bazario.
+
+SECTION 10: NON-RETURNABLE ITEMS
+
+The following are never eligible for return or refund (except under Buyer Protection):
+
+- Digital products and software licenses
+- Gift cards and store credit
+- Perishable items (see Section 3 for damage/spoilage exceptions)
+- Hazardous materials
+- Items marked Final Sale (see Section 6 for exceptions)
+- Customized or personalized products

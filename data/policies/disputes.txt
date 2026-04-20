@@ -1,0 +1,117 @@
+DOCUMENT: Bazario Disputes Policy
+VERSION: 1.8
+LAST UPDATED: March 2026
+
+SECTION 1: TYPES OF DISPUTES
+
+Bazario handles the following dispute categories:
+
+- Damaged item received
+- Incorrect item received
+- Missing items from order
+- Item significantly not as described
+- Order marked delivered but not received
+- Unauthorized or fraudulent transaction
+- Marketplace seller disputes
+
+Each category has specific resolution steps outlined in this document.
+
+SECTION 2: DAMAGED ITEM RECEIVED
+
+If a customer receives a damaged item:
+
+- Report must be submitted within 48 hours of delivery
+- Customer must provide clear photographic evidence of the damage and original packaging
+- Bazario will review the claim within 2 business days
+- Approved claims will receive a full refund or replacement at the customer's choice
+- Items do not need to be returned for damage claims unless specifically requested by Bazario
+
+For perishable items, the reporting window is 24 hours from delivery (see Returns and Refunds Policy Section 3).
+
+SECTION 3: INCORRECT ITEM RECEIVED
+
+If a customer receives an item different from what was ordered:
+
+- Report must be submitted within 7 days of delivery
+- Customer must provide a photo of the item received and the packing slip
+- Bazario will arrange pickup of the incorrect item and dispatch the correct item within 3–5 business days
+- If the correct item is out of stock, a full refund will be issued instead
+- Customers are not required to bear any cost for incorrect item disputes
+
+SECTION 4: MISSING ITEMS FROM ORDER
+
+If an item is missing from a multi-item order:
+
+- Report must be submitted within 48 hours of delivery
+- Customer must provide a photo of the package and all items received
+- Bazario will verify against packing records and dispatch the missing item within 3–5 business days
+- If the item is out of stock, a proportional refund will be issued
+
+Repeated missing item claims from the same account may be subject to additional verification.
+
+SECTION 5: ITEM SIGNIFICANTLY NOT AS DESCRIBED
+
+If the received item is materially different from the product description or images on Bazario:
+
+- Report must be submitted within 7 days of delivery
+- Customer must describe the discrepancy clearly and provide photos
+- Bazario will review the product listing and the claim
+- If validated, customer will receive a full refund and may keep or return the item at Bazario discretion
+- The product listing will be reviewed and corrected or removed if found misleading
+
+SECTION 6: ORDER MARKED DELIVERED BUT NOT RECEIVED
+
+If tracking shows an order as delivered but the customer has not received it:
+
+- Customer must report within 5 days of the marked delivery date
+- Bazario will initiate a carrier investigation within 1 business day
+- Investigation typically takes 5–7 business days
+- If the carrier confirms non-delivery, a full refund or replacement will be issued
+- Bazario is not liable for packages delivered to an incorrect address provided by the customer
+
+Customers are advised to check with neighbors, building reception, and nearby pickup points before filing this dispute.
+
+SECTION 7: UNAUTHORIZED OR FRAUDULENT TRANSACTION
+
+If a customer notices a transaction on their Bazario account they did not authorize:
+
+- Report immediately to Bazario support and the payment provider
+- Bazario will freeze the affected order and initiate a fraud investigation
+- Customers should also change their Bazario account password immediately
+- If fraud is confirmed, a full refund will be issued and the fraudulent order cancelled
+- Bazario may require identity verification before processing the refund
+
+Customers are responsible for maintaining the security of their account credentials. Bazario is not liable for unauthorized transactions resulting from customer negligence.
+
+SECTION 8: MARKETPLACE SELLER DISPUTES
+
+For disputes involving marketplace seller orders:
+
+- Customers must first attempt resolution directly with the seller via Bazario messaging
+- If the seller does not respond within 3 business days or refuses a valid claim, the customer may escalate to Bazario
+- Bazario will mediate and may issue a refund directly, recovering costs from the seller
+- Seller disputes must be escalated within 30 days of delivery
+
+Bazario Buyer Protection (see Returns and Refunds Policy Section 8) covers marketplace orders where the seller is unresponsive or the item is significantly not as described.
+
+SECTION 9: DISPUTE RESOLUTION TIMELINE
+
+Bazario aims to resolve all disputes within the following timelines:
+
+- Damaged / incorrect / missing item: 2–5 business days
+- Not as described: 3–7 business days
+- Not received (carrier investigation): 7–14 business days
+- Fraud investigation: 5–10 business days
+- Marketplace seller mediation: 5–10 business days after escalation
+
+Customers will be kept updated via email and app notifications throughout the process.
+
+SECTION 10: DISPUTE ABUSE AND REPEATED CLAIMS
+
+Bazario monitors dispute patterns to detect abuse. Accounts with unusually high dispute rates, repeated claims for the same issue types, or patterns inconsistent with genuine disputes may be subject to:
+
+- Additional verification requirements before claims are processed
+- Temporary hold on dispute resolutions pending review
+- Account restrictions or suspension in severe cases
+
+Fraudulent dispute claims are a violation of Bazario Terms of Service and may result in permanent account termination and legal action.

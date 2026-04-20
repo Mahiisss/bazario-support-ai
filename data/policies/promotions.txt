@@ -1,0 +1,89 @@
+DOCUMENT: Bazario Promotions and Coupon Terms
+VERSION: 1.6
+LAST UPDATED: March 2026
+
+SECTION 1: GENERAL COUPON TERMS
+
+Bazario coupons and promotional codes are subject to the following general terms:
+
+- Coupons are single-use unless explicitly stated otherwise
+- Coupons cannot be combined with other promotional offers unless stated
+- Coupons have an expiry date and are void after that date
+- Coupons are non-transferable and may only be used by the account they were issued to
+- Bazario reserves the right to cancel or modify any promotion at any time without prior notice
+
+SECTION 2: DISCOUNT COUPONS
+
+Discount coupons provide a fixed or percentage discount on eligible items. Key terms:
+
+- Minimum order value may apply — stated on the coupon
+- Discount applies to item price only, not to shipping charges or taxes unless specified
+- Percentage discounts are capped at a maximum discount amount where applicable
+- Coupons are not applicable on Final Sale items, gift cards, or already discounted items unless explicitly stated
+
+SECTION 3: CASHBACK OFFERS
+
+Cashback promotions credit a specified amount to the customer's Bazario wallet after a qualifying purchase. Terms:
+
+- Cashback is credited within 3–5 business days of order delivery
+- Cashback is not credited if the order is returned or cancelled
+- If a partial return is made, cashback is adjusted proportionally
+- Cashback in the Bazario wallet expires 12 months from the date of credit
+- Cashback cannot be transferred, withdrawn as cash, or used to purchase gift cards
+
+SECTION 4: BANK AND PAYMENT METHOD OFFERS
+
+Bazario periodically runs offers in partnership with banks and payment providers (e.g. 10% off with HDFC cards, extra cashback on UPI). Terms:
+
+- These offers are governed jointly by Bazario and the partner bank/provider
+- Eligibility is determined at the time of payment — if the payment method does not qualify, the discount will not apply
+- Customers cannot claim bank offer discounts retroactively after payment is completed
+- In case of disputes regarding bank offer eligibility, customers should contact both Bazario and their bank
+
+SECTION 5: REFERRAL OFFERS
+
+Referral rewards are credited to both the referrer and the new customer upon the new customer's first completed purchase of INR 300 or more. Terms:
+
+- Referral rewards are void if the referred account is flagged for fraud or policy violations
+- Each referral code can only be used once per new account
+- Referral rewards are credited to the Bazario wallet and follow standard wallet terms
+- Self-referrals (creating a new account to refer yourself) are prohibited and will result in reward forfeiture and possible account action
+
+SECTION 6: FLASH SALES AND LIMITED-TIME OFFERS
+
+Flash sales and limited-time offers are available on a first-come, first-served basis. Bazario does not guarantee availability of items at sale prices once stock is exhausted.
+
+Items purchased during flash sales:
+- Are subject to standard return and refund policies unless marked Final Sale
+- Cannot have their price matched after the sale period ends
+- Cannot be price-adjusted retroactively if purchased before the sale began
+
+SECTION 7: PRICE MATCH POLICY
+
+Bazario does not offer a general price match guarantee. Exceptions:
+
+- If the price of an item drops on Bazario within 24 hours of purchase, customers may request a one-time price adjustment by contacting support
+- Price adjustments are not available for marketplace seller items, flash sale prices, or items purchased with a coupon
+
+SECTION 8: PROMOTIONAL ABUSE
+
+Bazario monitors for promotional abuse including but not limited to:
+
+- Creating multiple accounts to claim new-user offers
+- Using coupons in ways not intended by the offer terms
+- Bulk purchasing items during promotions for resale
+- Self-referrals or coordinated referral fraud
+
+Accounts found engaging in promotional abuse may have rewards revoked, coupons cancelled, and accounts suspended.
+
+SECTION 9: REGIONAL PROMOTION AVAILABILITY
+
+Some promotions are available only in specific regions or cities. Eligibility is determined by the customer's registered delivery address or detected location. Customers in ineligible regions will not see the promotion at checkout.
+
+Bazario is not obligated to extend regional promotions to customers outside the defined eligibility area.
+
+SECTION 10: COUPON APPLICATION AND ERRORS
+
+Coupons must be applied at checkout before payment is completed. Bazario cannot apply coupon discounts retroactively after an order is placed and paid.
+
+If a coupon fails to apply due to a Bazario system error (not user error), customers should contact support within 24 hours with a screenshot as evidence. Bazario will review and may issue equivalent wallet credit at its discretion.

@@ -1,0 +1,88 @@
+DOCUMENT: Bazario Shipping and Delivery Policy
+VERSION: 2.3
+LAST UPDATED: March 2026
+
+SECTION 1: STANDARD DELIVERY TIMELINES
+
+Bazario standard delivery timelines vary by region and fulfillment type:
+
+- Metro cities (Tier 1): 2–4 business days
+- Tier 2 cities: 4–6 business days
+- Tier 3 cities and rural areas: 6–10 business days
+- International orders: 10–21 business days depending on destination country
+
+Delivery timelines are estimates and not guaranteed. Delays may occur due to weather, logistics disruptions, public holidays, or high-demand periods.
+
+SECTION 2: EXPRESS AND SAME-DAY DELIVERY
+
+Express delivery (next-day) and same-day delivery are available in select metro cities for eligible items. Express delivery orders placed before 12:00 PM local time are typically delivered the next business day. Same-day delivery orders must be placed before 10:00 AM.
+
+Express and same-day delivery fees are non-refundable once the order has been dispatched, even if the delivery is delayed.
+
+SECTION 3: DELIVERY ATTEMPTS AND FAILED DELIVERY
+
+Bazario logistics partners will attempt delivery up to 3 times. After 3 failed attempts, the package will be held at a nearby pickup point for 5 days before being returned to the fulfillment center.
+
+If a package is returned due to failed delivery:
+- Customer is notified via email and app
+- A re-delivery may be arranged at an additional fee
+- Alternatively, a refund minus original shipping charges will be issued
+
+SECTION 4: LOST IN TRANSIT
+
+A package is considered lost if it has not been delivered within 10 business days beyond the estimated delivery date and tracking shows no movement for 5 or more consecutive days.
+
+To report a lost package:
+- Customer must contact Bazario support within 90 days of order date
+- Bazario will initiate a carrier investigation, which may take 5–7 business days
+- If confirmed lost, customer will receive a full refund or replacement at their choice
+
+Bazario is not liable for packages marked as delivered by the carrier but not received by the customer. In such cases, customers should file a complaint with the carrier and Bazario will assist with mediation where possible.
+
+SECTION 5: DAMAGED IN TRANSIT
+
+If an item arrives visibly damaged due to shipping:
+- Customer must report damage within 48 hours of delivery
+- Photographic evidence of damage and packaging must be submitted
+- Bazario will arrange a replacement or issue a full refund without requiring return
+
+Damage reported after 48 hours may not be eligible for a shipping damage claim but may still qualify under the standard return policy.
+
+SECTION 6: SHIPPING CHARGES
+
+Standard shipping is free on orders above INR 499 for first-party Bazario orders. Orders below this threshold incur a flat shipping fee of INR 49.
+
+Marketplace seller shipping charges are set by the seller and displayed at checkout. Bazario does not control or subsidize marketplace seller shipping fees.
+
+Express and same-day delivery fees vary by location and item weight and are displayed at checkout.
+
+SECTION 7: REGIONAL SHIPPING RESTRICTIONS
+
+Certain items cannot be shipped to specific regions due to local regulations:
+- Alcohol and tobacco products: restricted in several Indian states
+- Certain electronics: may require local certification before delivery
+- High-value items above INR 50,000: may require additional KYC verification before dispatch
+
+Customers in restricted regions will be notified at checkout if an item cannot be shipped to their address.
+
+SECTION 8: INTERNATIONAL SHIPPING
+
+International orders are subject to customs duties, import taxes, and local regulations of the destination country. These charges are the responsibility of the customer and are not included in Bazario pricing.
+
+Bazario is not responsible for delays caused by customs clearance. International orders are not eligible for same-day or express delivery.
+
+SECTION 9: MARKETPLACE SELLER SHIPPING
+
+For marketplace seller orders, shipping is handled by the seller or their logistics partner. Delivery timelines, tracking, and shipping charges are determined by the seller. Bazario standard shipping timelines do not apply.
+
+If a marketplace order is significantly delayed beyond the seller's stated delivery window, customers may escalate to Bazario for mediation after first attempting resolution with the seller.
+
+SECTION 10: TRACKING AND NOTIFICATIONS
+
+Order tracking is available in real time through the Bazario app and website. Customers receive automated notifications at the following stages:
+- Order confirmed
+- Order dispatched
+- Out for delivery
+- Delivered
+
+If tracking has not updated for more than 3 business days after dispatch, customers should contact Bazario support to initiate a trace request with the carrier.

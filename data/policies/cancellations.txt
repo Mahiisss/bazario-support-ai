@@ -1,0 +1,64 @@
+DOCUMENT: Bazario Cancellations Policy
+VERSION: 1.4
+LAST UPDATED: March 2026
+
+SECTION 1: CANCELLATION WINDOW
+
+Customers may cancel an order at no charge within 1 hour of placing it, provided the order has not yet been picked, packed, or dispatched by the fulfillment center. Orders in "processing" status can typically be cancelled within this window.
+
+Once an order moves to "shipped" status, it can no longer be cancelled. Customers must wait for delivery and then initiate a return under the Returns and Refunds Policy.
+
+SECTION 2: HOW TO CANCEL
+
+Cancellations must be initiated through the Bazario app or website via the Orders section. Cancellations requested through customer support chat or email are subject to delay and cannot be guaranteed if the order is already in processing.
+
+For urgent cancellations, customers should use the self-service cancellation option in the app for the fastest response.
+
+SECTION 3: CANCELLATION REFUNDS
+
+If a cancellation is approved before dispatch:
+- Full refund issued to the original payment method within 3–5 business days
+- UPI and digital wallet refunds may take up to 7 business days
+
+If the order has already shipped and the cancellation is not possible:
+- Customer must initiate a return upon delivery
+- Refund will be processed after the item is received and inspected
+
+SECTION 4: MARKETPLACE SELLER ORDERS
+
+For marketplace seller orders, cancellation policies may vary by seller. Customers should check the seller's individual cancellation terms on the product page before placing an order.
+
+Bazario standard cancellation window (1 hour) does not apply to marketplace sellers unless the seller has opted into Bazario standard terms. If a seller denies a valid cancellation request within a reasonable window, customers may escalate to Bazario for mediation.
+
+SECTION 5: SUBSCRIPTION AND RECURRING ORDERS
+
+Subscription orders can be cancelled at any time before the next billing cycle through the Subscriptions section in account settings. Cancellations submitted on the billing date may or may not apply to the current cycle depending on processing time.
+
+No partial refunds are issued for subscription periods already billed and fulfilled.
+
+SECTION 6: PRE-ORDER CANCELLATIONS
+
+Pre-orders may be cancelled at any time before the item ships, with a full refund to the original payment method. Once a pre-order has shipped, standard return and refund terms apply.
+
+SECTION 7: BULK AND BUSINESS ORDERS
+
+Bulk orders (10 or more units of the same item) and business account orders may have custom cancellation terms agreed upon at the time of purchase. Standard cancellation windows do not apply. Customers with bulk order cancellation requests should contact their Bazario business account manager directly.
+
+SECTION 8: CANCELLATION ABUSE
+
+Bazario reserves the right to flag accounts that show a pattern of repeated cancellations. Accounts with excessive cancellation rates may be subject to restrictions including:
+
+- Removal of instant cancellation privileges
+- Manual review required for future orders
+- In severe cases, account suspension
+
+SECTION 9: PERISHABLE AND TIME-SENSITIVE ORDERS
+
+Perishable items and time-sensitive orders (e.g. same-day delivery, gifting orders with scheduled delivery) have a reduced cancellation window of 30 minutes from order placement. After this window, these orders are typically already in preparation and cannot be cancelled.
+
+SECTION 10: FORCE MAJEURE AND Bazario-INITIATED CANCELLATIONS
+
+If Bazario cancels an order due to stock unavailability, system error, pricing error, or force majeure events:
+- Customer receives a full refund within 3–5 business days
+- Customer will be notified via email and app notification
+- Bazario may offer a discount voucher as compensation at its discretion

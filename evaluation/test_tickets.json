@@ -1,0 +1,342 @@
+[
+  {
+    "case_id": "TC-001",
+    "category": "standard",
+    "expected_decision": "approve",
+    "notes": "Standard return within window, electronics, unopened",
+    "ticket_text": "I bought a bluetooth speaker 10 days ago and changed my mind. It's still sealed in the box. Can I return it?",
+    "order": {
+      "order_id": "ORD-2026-10011",
+      "order_date": "2026-03-10",
+      "delivery_date": "2026-03-13",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-002",
+    "category": "standard",
+    "expected_decision": "approve",
+    "notes": "Damaged item on arrival, apparel, within 48hr window",
+    "ticket_text": "The jacket I ordered arrived with a tear along the sleeve. I just got it today. I want a replacement or refund.",
+    "order": {
+      "order_id": "ORD-2026-10022",
+      "order_date": "2026-03-25",
+      "delivery_date": "2026-03-29",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-003",
+    "category": "standard",
+    "expected_decision": "approve",
+    "notes": "Missing item from multi-item order, reported within 48hr",
+    "ticket_text": "I ordered 3 items but only 2 arrived. The USB hub is missing from the package.",
+    "order": {
+      "order_id": "ORD-2026-10033",
+      "order_date": "2026-03-22",
+      "delivery_date": "2026-03-26",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "debit_card"
+    }
+  },
+  {
+    "case_id": "TC-004",
+    "category": "standard",
+    "expected_decision": "deny",
+    "notes": "Return requested outside 30-day window, no damage claim",
+    "ticket_text": "I bought a pair of jeans 45 days ago and they don't fit well. Can I return them for a refund?",
+    "order": {
+      "order_id": "ORD-2026-10044",
+      "order_date": "2026-02-10",
+      "delivery_date": "2026-02-13",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-005",
+    "category": "standard",
+    "expected_decision": "approve",
+    "notes": "Lost in transit, no movement for 7 days",
+    "ticket_text": "My order was shipped 12 days ago and tracking hasn't updated in 7 days. I think it's lost.",
+    "order": {
+      "order_id": "ORD-2026-10055",
+      "order_date": "2026-03-15",
+      "delivery_date": null,
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "shipped",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-006",
+    "category": "standard",
+    "expected_decision": "deny",
+    "notes": "Coupon not applied retroactively after order placed",
+    "ticket_text": "I forgot to apply my coupon code before placing the order. Can you apply the 15% discount now?",
+    "order": {
+      "order_id": "ORD-2026-10066",
+      "order_date": "2026-03-28",
+      "delivery_date": null,
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "placed",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-007",
+    "category": "standard",
+    "expected_decision": "approve",
+    "notes": "Incorrect item received, reported within 7 days",
+    "ticket_text": "I ordered a red dress in size M but received a blue one in size L. This is completely wrong.",
+    "order": {
+      "order_id": "ORD-2026-10077",
+      "order_date": "2026-03-20",
+      "delivery_date": "2026-03-24",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-008",
+    "category": "standard",
+    "expected_decision": "approve",
+    "notes": "Delivered but not received, reported within 5 days",
+    "ticket_text": "The tracking says my order was delivered yesterday but I never received it. Nobody was home and there's no package anywhere.",
+    "order": {
+      "order_id": "ORD-2026-10088",
+      "order_date": "2026-03-24",
+      "delivery_date": "2026-03-28",
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "debit_card"
+    }
+  },
+  {
+    "case_id": "TC-009",
+    "category": "exception",
+    "expected_decision": "approve",
+    "notes": "Perishable item damaged/melted, reported within 24hr",
+    "ticket_text": "My order arrived 3 days late and the chocolates are completely melted. I want a full refund and I'm not returning ruined food.",
+    "order": {
+      "order_id": "ORD-2026-10099",
+      "order_date": "2026-03-20",
+      "delivery_date": "2026-03-28",
+      "item_category": "perishable",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-010",
+    "category": "exception",
+    "expected_decision": "deny",
+    "notes": "Perishable item, claim submitted after 24hr window",
+    "ticket_text": "I received my fruit basket 3 days ago and some of the fruits are already rotting. I want a refund.",
+    "order": {
+      "order_id": "ORD-2026-10100",
+      "order_date": "2026-03-22",
+      "delivery_date": "2026-03-25",
+      "item_category": "perishable",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-011",
+    "category": "exception",
+    "expected_decision": "deny",
+    "notes": "Final sale item, no damage or wrong item claim",
+    "ticket_text": "I bought a jacket on final sale last week but it doesn't suit me. Can I get a refund or exchange?",
+    "order": {
+      "order_id": "ORD-2026-10111",
+      "order_date": "2026-03-18",
+      "delivery_date": "2026-03-22",
+      "item_category": "final_sale",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-012",
+    "category": "exception",
+    "expected_decision": "approve",
+    "notes": "Final sale item arrived damaged — exception applies",
+    "ticket_text": "I bought a final sale item and it arrived cracked and broken. I know it's final sale but this is clearly damaged.",
+    "order": {
+      "order_id": "ORD-2026-10122",
+      "order_date": "2026-03-25",
+      "delivery_date": "2026-03-28",
+      "item_category": "final_sale",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-013",
+    "category": "exception",
+    "expected_decision": "deny",
+    "notes": "Opened hygiene item return request",
+    "ticket_text": "I opened the face cream I ordered and I don't like the smell. Can I return it for a refund?",
+    "order": {
+      "order_id": "ORD-2026-10133",
+      "order_date": "2026-03-20",
+      "delivery_date": "2026-03-24",
+      "item_category": "hygiene",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-014",
+    "category": "exception",
+    "expected_decision": "partial",
+    "notes": "Opened electronics with restocking fee applicable",
+    "ticket_text": "I opened my new headphones but they work fine — I just prefer my old ones. Can I return them?",
+    "order": {
+      "order_id": "ORD-2026-10144",
+      "order_date": "2026-03-22",
+      "delivery_date": "2026-03-25",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "debit_card"
+    }
+  },
+  {
+    "case_id": "TC-015",
+    "category": "conflict",
+    "expected_decision": "escalate",
+    "notes": "Marketplace seller policy conflicts with Bazario standard — seller refusing return",
+    "ticket_text": "The seller is refusing my return request but Bazario policy says I have 30 days. The seller says they have a no-return policy. Who do I go with?",
+    "order": {
+      "order_id": "ORD-2026-10155",
+      "order_date": "2026-03-10",
+      "delivery_date": "2026-03-15",
+      "item_category": "apparel",
+      "fulfillment_type": "marketplace",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-016",
+    "category": "conflict",
+    "expected_decision": "escalate",
+    "notes": "Regional restriction conflicts with standard return policy",
+    "ticket_text": "I want to return an alcohol gift set I received as a gift. It was delivered to me in a state where alcohol shipping is restricted. Can I return it?",
+    "order": {
+      "order_id": "ORD-2026-10166",
+      "order_date": "2026-03-18",
+      "delivery_date": "2026-03-22",
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "Bihar",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-017",
+    "category": "conflict",
+    "expected_decision": "escalate",
+    "notes": "Perishable + marketplace seller — conflicting policies on who bears responsibility",
+    "ticket_text": "I ordered fresh flowers from a marketplace seller. They arrived wilted and dead. The seller says it's not their problem because flowers are perishable. Bazario should cover this.",
+    "order": {
+      "order_id": "ORD-2026-10177",
+      "order_date": "2026-03-27",
+      "delivery_date": "2026-03-29",
+      "item_category": "perishable",
+      "fulfillment_type": "marketplace",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-018",
+    "category": "not_in_policy",
+    "expected_decision": "escalate",
+    "notes": "Customer demanding compensation beyond refund — not covered",
+    "ticket_text": "My delayed delivery ruined my birthday party. I want a full refund AND compensation for the emotional distress and the party expenses I wasted.",
+    "order": {
+      "order_id": "ORD-2026-10188",
+      "order_date": "2026-03-20",
+      "delivery_date": "2026-03-28",
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "UPI"
+    }
+  },
+  {
+    "case_id": "TC-019",
+    "category": "not_in_policy",
+    "expected_decision": "escalate",
+    "notes": "Customer asking for price match against competitor — not in policy",
+    "ticket_text": "I saw the same product on Amazon for INR 200 less. I want Bazario to match that price or refund the difference.",
+    "order": {
+      "order_id": "ORD-2026-10199",
+      "order_date": "2026-03-26",
+      "delivery_date": "2026-03-29",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "India",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    }
+  },
+  {
+    "case_id": "TC-020",
+    "category": "not_in_policy",
+    "expected_decision": "escalate",
+    "notes": "Ambiguous ticket — missing item category and order status",
+    "ticket_text": "I have a problem with my recent order. Something went wrong with the delivery. Please help.",
+    "order": {
+      "order_id": "ORD-2026-10200",
+      "order_date": "2026-03-28",
+      "delivery_date": null,
+      "item_category": null,
+      "fulfillment_type": null,
+      "shipping_region": "India",
+      "order_status": null,
+      "payment_method": null
+    }
+  }
+]

@@ -1,0 +1,9 @@
+echo ".env
+.env.example
+venv/
+__pycache__/
+*.pyc
+data/faiss_index/
+outputs/
+.vscode/
+" > .gitignore
