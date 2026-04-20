@@ -1,4 +1,4 @@
-echo ".env
+.env
 .env.example
 venv/
 __pycache__/
@@ -6,4 +6,5 @@ __pycache__/
 data/faiss_index/
 outputs/
 .vscode/
-" > .gitignore
+frontend/node_modules/
+
