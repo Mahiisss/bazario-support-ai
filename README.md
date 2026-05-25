@@ -333,8 +333,3 @@ Groq free tier allows ~12,000 tokens/minute. Each pipeline run uses approximatel
 
 For higher throughput, upgrade at [console.groq.com/settings/billing](https://console.groq.com/settings/billing).
 
----
-
-## License
-
-MIT

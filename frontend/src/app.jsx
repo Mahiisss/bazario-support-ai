@@ -5,30 +5,32 @@ import HistorySidebar from "./components/HistorySidebar";
 import AgentProgress from "./components/AgentProgress";
 import "./App.css";
 
+const AGENTS = [
+  { id: "triage",     label: "Triage Agent",       desc: "Classifying ticket" },
+  { id: "retriever",  label: "Policy Retriever",    desc: "Searching knowledge base" },
+  { id: "writer",     label: "Resolution Writer",   desc: "Drafting resolution" },
+  { id: "compliance", label: "Compliance Agent",    desc: "Verifying citations" },
+  { id: "escalation", label: "Escalation Agent",    desc: "Finalizing report" },
+];
+
+const ANIMATION_MS = 24000; // total animation duration in ms
+
 export default function App() {
-  const [resolution, setResolution] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [activeAgent, setActiveAgent] = useState(null);
+  const [resolution, setResolution]           = useState(null);
+  const [loading, setLoading]                 = useState(false);
+  const [activeAgent, setActiveAgent]         = useState(null);
   const [completedAgents, setCompletedAgents] = useState([]);
-  const [error, setError] = useState(null);
-  const [history, setHistory] = useState([]);
+  const [error, setError]                     = useState(null);
+  const [history, setHistory]                 = useState([]);
+  const [pipelineRan, setPipelineRan]         = useState(false);
 
-  const agents = [
-    { id: "triage", label: "Triage Agent", desc: "Classifying ticket" },
-    { id: "retriever", label: "Policy Retriever", desc: "Searching knowledge base" },
-    { id: "writer", label: "Resolution Writer", desc: "Drafting resolution" },
-    { id: "compliance", label: "Compliance Agent", desc: "Verifying citations" },
-    { id: "escalation", label: "Escalation Agent", desc: "Finalizing report" },
-  ];
-
-  const simulateProgress = () => {
-    // simulate agent progress since we can't stream from Flask easily
+  const simulateProgress = (agentsToShow) => {
     const delays = [2000, 5000, 9000, 11000, 13000];
-    agents.forEach((agent, i) => {
+    agentsToShow.forEach((agent, i) => {
       setTimeout(() => setActiveAgent(agent.id), delays[i]);
       setTimeout(() => {
         setCompletedAgents(prev => [...prev, agent.id]);
-        if (i < agents.length - 1) setActiveAgent(null);
+        if (i < agentsToShow.length - 1) setActiveAgent(null);
       }, delays[i] + 1800);
     });
   };
@@ -39,8 +41,9 @@ export default function App() {
     setError(null);
     setActiveAgent(null);
     setCompletedAgents([]);
+    setPipelineRan(false);
 
-    simulateProgress();
+    const startTime = Date.now();
 
     try {
       const res = await fetch("http://localhost:5000/resolve", {
@@ -53,20 +56,66 @@ export default function App() {
 
       if (!res.ok) throw new Error(data.error || "Something went wrong");
 
-      setResolution(data);
-      setHistory(prev => [data, ...prev].slice(0, 20));
+      if (data.status !== "needs_info") {
+        setPipelineRan(true);
+        const agentsToShow = data.status === "escalated"
+          ? AGENTS
+          : AGENTS.filter(a => a.id !== "escalation");
+        simulateProgress(agentsToShow);
+
+        // Wait for animation to finish before showing result
+        const timeElapsed = Date.now() - startTime;
+        const remaining = Math.max(0, ANIMATION_MS - timeElapsed);
+
+        setTimeout(() => {
+          setResolution(data);
+          setHistory(prev => [data, ...prev].slice(0, 20));
+          setLoading(false);
+          setActiveAgent(null);
+        }, remaining);
+
+      } else {
+        // needs_info — show immediately, no animation
+        setResolution(data);
+        setHistory(prev => [data, ...prev].slice(0, 20));
+        setLoading(false);
+        setActiveAgent(null);
+      }
+
     } catch (err) {
       setError(err.message);
-    } finally {
       setLoading(false);
       setActiveAgent(null);
     }
   };
 
+  // const loadFromHistory = (item) => {
+    // setResolution(item);
+    // setPipelineRan(item.status !== "needs_info");
+    // if (item.status !== "needs_info") {
+      // const agentsToShow = item.status === "escalated"
+        // ? AGENTS
+        // : AGENTS.filter(a => a.id !== "escalation");
+      // setCompletedAgents(agentsToShow.map(a => a.id));
+    // } else {
+      // setCompletedAgents([]);
+    // }
+  // };
+
+
   const loadFromHistory = (item) => {
-    setResolution(item);
-    setCompletedAgents(agents.map(a => a.id));
-  };
+  setResolution(item);
+  setError(null);        // ← add this line
+  setPipelineRan(item.status !== "needs_info");
+  if (item.status !== "needs_info") {
+    const agentsToShow = item.status === "escalated"
+      ? AGENTS
+      : AGENTS.filter(a => a.id !== "escalation");
+    setCompletedAgents(agentsToShow.map(a => a.id));
+  } else {
+    setCompletedAgents([]);
+  }
+};
 
   return (
     <div className="app">
@@ -79,7 +128,7 @@ export default function App() {
           </div>
           <div className="header-meta">
             <span className="status-dot" />
-            <span className="status-text">5 agents online</span>
+            <span className="status-text">Support AI</span>
           </div>
         </div>
       </header>
@@ -90,12 +139,13 @@ export default function App() {
         <div className="center">
           <TicketForm onSubmit={handleSubmit} loading={loading} />
 
-          {(loading || completedAgents.length > 0) && (
+          {pipelineRan && (loading || completedAgents.length > 0) && (
             <AgentProgress
-              agents={agents}
+              agents={AGENTS}
               activeAgent={activeAgent}
               completedAgents={completedAgents}
               loading={loading}
+              status={resolution?.status}
             />
           )}
 

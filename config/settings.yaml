@@ -3,27 +3,27 @@
 
 embedding:
   model: "sentence-transformers/all-MiniLM-L6-v2"
-  device: "cpu"           # change to "cuda" if you have a GPU
+  device: "cpu"
   normalize: true
 
 vectorstore:
-  index_path: "data/vectorstore/faiss_index"
-  chunk_size: 800
+  index_path: "data/faiss_index"
+  chunk_size: 500
   chunk_overlap: 100
 
 retrieval:
-  top_k: 5               # chunks per query
-  score_threshold: 0.3   # drop anything below this similarity
+  top_k: 3
+  score_threshold: 0.3
 
 llm:
-  model: "gpt-4o"        # or gpt-3.5-turbo if cost matters
-  temperature: 0.1       # keep it low — we want consistent, factual answers
+  model: "groq/llama-3.3-70b-versatile"
+  temperature: 0.1
   max_tokens: 2000
 
 crew:
   verbose: true
-  max_iterations: 3      # per agent
-  memory: false          # keeping stateless for now
+  max_iterations: 3
+  memory: false
 
 paths:
   policies_dir: "data/policies"
@@ -32,6 +32,6 @@ paths:
   logs_dir: "logs"
 
 logging:
-  level: "INFO"          # DEBUG if you're chasing a bug
-  save_to_file: true
+  level: "INFO"
+  save_to_file: false
   log_file: "logs/agent_runs.log"

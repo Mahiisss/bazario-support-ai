@@ -1,0 +1,82 @@
+{
+  "ORD-2026-001": {
+    "order_id": "ORD-2026-001",
+    "order_date": "2026-03-20",
+    "delivery_date": "2026-03-25",
+    "item_category": "electronics",
+    "fulfillment_type": "first-party",
+    "shipping_region": "India",
+    "order_status": "delivered",
+    "payment_method": "UPI"
+  },
+  "ORD-2026-002": {
+    "order_id": "ORD-2026-002",
+    "order_date": "2026-04-01",
+    "delivery_date": "2026-04-05",
+    "item_category": "perishable",
+    "fulfillment_type": "first-party",
+    "shipping_region": "India",
+    "order_status": "delivered",
+    "payment_method": "Credit Card"
+  },
+  "ORD-2026-003": {
+    "order_id": "ORD-2026-003",
+    "order_date": "2026-04-10",
+    "delivery_date": null,
+    "item_category": "apparel",
+    "fulfillment_type": "marketplace",
+    "shipping_region": "India",
+    "order_status": "in_transit",
+    "payment_method": "COD"
+  },
+  "ORD-2026-004": {
+    "order_id": "ORD-2026-004",
+    "order_date": "2026-04-15",
+    "delivery_date": "2026-04-20",
+    "item_category": "hygiene",
+    "fulfillment_type": "first-party",
+    "shipping_region": "India",
+    "order_status": "delivered",
+    "payment_method": "Debit Card"
+  },
+  "ORD-2026-005": {
+    "order_id": "ORD-2026-005",
+    "order_date": "2026-05-01",
+    "delivery_date": "2026-05-10",
+    "item_category": "furniture",
+    "fulfillment_type": "first-party",
+    "shipping_region": "India",
+    "order_status": "delivered",
+    "payment_method": "Net Banking"
+  },
+  "ORD-2026-006": {
+    "order_id": "ORD-2026-006",
+    "order_date": "2026-05-05",
+    "delivery_date": null,
+    "item_category": "electronics",
+    "fulfillment_type": "marketplace",
+    "shipping_region": "International",
+    "order_status": "cancelled",
+    "payment_method": "Credit Card"
+  },
+  "ORD-2026-007": {
+    "order_id": "ORD-2026-007",
+    "order_date": "2026-05-10",
+    "delivery_date": "2026-05-15",
+    "item_category": "books",
+    "fulfillment_type": "first-party",
+    "shipping_region": "India",
+    "order_status": "delivered",
+    "payment_method": "UPI"
+  },
+  "ORD-2026-008": {
+    "order_id": "ORD-2026-008",
+    "order_date": "2026-05-12",
+    "delivery_date": "2026-05-18",
+    "item_category": "electronics",
+    "fulfillment_type": "first-party",
+    "shipping_region": "India",
+    "order_status": "returned",
+    "payment_method": "Wallet"
+  }
+}
