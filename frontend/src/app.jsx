@@ -13,7 +13,7 @@ const AGENTS = [
   { id: "escalation", label: "Escalation Agent",    desc: "Finalizing report" },
 ];
 
-const ANIMATION_MS = 24000; // total animation duration in ms
+const ANIMATION_MS = 25000; // total animation duration in ms
 
 export default function App() {
   const [resolution, setResolution]           = useState(null);
