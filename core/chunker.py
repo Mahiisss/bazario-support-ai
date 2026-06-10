@@ -1,38 +1,27 @@
 from typing import List
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-
-# 500/100 is the sweet spot for policy docs —
-# big enough to capture a full rule, small enough to stay focused
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 100
+from config.config import cfg
 
 
 def chunk_documents(docs: List[Document]) -> List[Document]:
-    """
-    Splits policy docs into overlapping chunks for vector indexing.
-    Tries to split on section breaks first, then sentences, then words.
-    """
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP,
+        chunk_size=cfg.chunk_size,
+        chunk_overlap=cfg.chunk_overlap,
         separators=["\n\n", "\n", "SECTION", ". ", " "],
     )
 
     chunks = splitter.split_documents(docs)
 
-    # tag each chunk with an id so citations are traceable
     for i, chunk in enumerate(chunks):
         chunk.metadata["chunk_id"] = f"chunk_{i:04d}"
 
     print(f"Chunked {len(docs)} docs → {len(chunks)} chunks "
-          f"(size={CHUNK_SIZE}, overlap={CHUNK_OVERLAP})")
+          f"(size={cfg.chunk_size}, overlap={cfg.chunk_overlap})")
     return chunks
 
 
 def preview_chunks(chunks: List[Document], n: int = 3) -> None:
-    """Print first n chunks — good for sanity checking before indexing."""
     print(f"\nShowing first {n} chunks:\n")
     for chunk in chunks[:n]:
         src = chunk.metadata.get("source_file", "?")
@@ -44,8 +33,6 @@ def preview_chunks(chunks: List[Document], n: int = 3) -> None:
 
 if __name__ == "__main__":
     from core.ingestion import load_policies
-
     docs = load_policies()
-
     chunks = chunk_documents(docs)
     preview_chunks(chunks, n=5)

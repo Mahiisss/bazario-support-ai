@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TicketForm from "./components/TicketForm";
 import ResolutionView from "./components/ResolutionView";
 import HistorySidebar from "./components/HistorySidebar";
@@ -13,7 +13,7 @@ const AGENTS = [
   { id: "escalation", label: "Escalation Agent",    desc: "Finalizing report" },
 ];
 
-const ANIMATION_MS = 25000; // total animation duration in ms
+const ANIMATION_MS = 15000;
 
 export default function App() {
   const [resolution, setResolution]           = useState(null);
@@ -23,6 +23,14 @@ export default function App() {
   const [error, setError]                     = useState(null);
   const [history, setHistory]                 = useState([]);
   const [pipelineRan, setPipelineRan]         = useState(false);
+
+  // Load history from backend on startup
+  useEffect(() => {
+    fetch("http://localhost:5000/history")
+      .then(res => res.json())
+      .then(data => setHistory(Array.isArray(data) ? data : []))
+      .catch(err => console.error("Failed to load history:", err));
+  }, []);
 
   const simulateProgress = (agentsToShow) => {
     const delays = [2000, 5000, 9000, 11000, 13000];
@@ -63,21 +71,19 @@ export default function App() {
           : AGENTS.filter(a => a.id !== "escalation");
         simulateProgress(agentsToShow);
 
-        // Wait for animation to finish before showing result
         const timeElapsed = Date.now() - startTime;
-        const remaining = Math.max(0, ANIMATION_MS - timeElapsed);
+        const remaining   = Math.max(0, ANIMATION_MS - timeElapsed);
 
         setTimeout(() => {
           setResolution(data);
-          setHistory(prev => [data, ...prev].slice(0, 20));
+          setHistory(prev => [data, ...prev].slice(0, 50));
           setLoading(false);
           setActiveAgent(null);
         }, remaining);
 
       } else {
-        // needs_info — show immediately, no animation
         setResolution(data);
-        setHistory(prev => [data, ...prev].slice(0, 20));
+        setHistory(prev => [data, ...prev].slice(0, 50));
         setLoading(false);
         setActiveAgent(null);
       }
@@ -89,33 +95,19 @@ export default function App() {
     }
   };
 
-  // const loadFromHistory = (item) => {
-    // setResolution(item);
-    // setPipelineRan(item.status !== "needs_info");
-    // if (item.status !== "needs_info") {
-      // const agentsToShow = item.status === "escalated"
-        // ? AGENTS
-        // : AGENTS.filter(a => a.id !== "escalation");
-      // setCompletedAgents(agentsToShow.map(a => a.id));
-    // } else {
-      // setCompletedAgents([]);
-    // }
-  // };
-
-
   const loadFromHistory = (item) => {
-  setResolution(item);
-  setError(null);        // ← add this line
-  setPipelineRan(item.status !== "needs_info");
-  if (item.status !== "needs_info") {
-    const agentsToShow = item.status === "escalated"
-      ? AGENTS
-      : AGENTS.filter(a => a.id !== "escalation");
-    setCompletedAgents(agentsToShow.map(a => a.id));
-  } else {
-    setCompletedAgents([]);
-  }
-};
+    setResolution(item);
+    setError(null);
+    setPipelineRan(item.status !== "needs_info");
+    if (item.status !== "needs_info") {
+      const agentsToShow = item.status === "escalated"
+        ? AGENTS
+        : AGENTS.filter(a => a.id !== "escalation");
+      setCompletedAgents(agentsToShow.map(a => a.id));
+    } else {
+      setCompletedAgents([]);
+    }
+  };
 
   return (
     <div className="app">

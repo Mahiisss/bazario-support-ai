@@ -1,5 +1,6 @@
 import json
 import time
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -7,11 +8,11 @@ from core.ingestion import load_policies
 from core.chunker import chunk_documents
 from core.vectorstore import get_or_build_index
 from crew import resolve_ticket
-
+from models import ResolutionResult
 
 TEST_TICKETS_PATH = Path("evaluation/test_tickets.json")
-RESULTS_DIR = Path("evaluation/results")
-REPORT_PATH = Path("evaluation/eval_report.md")
+RESULTS_DIR       = Path("evaluation/results")
+REPORT_PATH       = Path("evaluation/eval_report.md")
 
 
 def load_test_cases() -> list[dict]:
@@ -19,103 +20,129 @@ def load_test_cases() -> list[dict]:
         return json.load(f)
 
 
-def extract_decision(output: str) -> Optional[str]:
+def map_status_to_decision(result: ResolutionResult) -> str:
     """
-    Tries to pull the decision out of the raw output string.
-    Looks for keywords in the Decision or Compliance Verdict sections.
-    Not perfect but good enough for eval purposes.
+    Map structured ResolutionResult fields to a decision label
+    that matches the expected_decision values in test_tickets.json.
+    Uses verdict and status fields — no keyword matching on raw text.
     """
-    output_lower = output.lower()
+    status  = (result.status  or "").lower()
+    verdict = (result.verdict or "").lower()
 
-    if "escalate to human agent" in output_lower or "escalate" in output_lower:
+    if status == "escalated" or "escalate" in verdict:
         return "escalate"
-    if "partial refund" in output_lower or "partial" in output_lower:
-        return "partial"
-    if "approved" in output_lower or "full refund" in output_lower:
+
+    if status in ("resolved", "needs_review"):
+        decision_text = (result.decision or "").lower()
+        result_text   = (result.result   or "").lower()
+
+        # partial — restocking fee mentioned in decision
+        if "restocking" in decision_text or "restocking" in result_text:
+            return "partial"
+
+        # deny — explicit denial keywords in decision
+        deny_keywords = [
+            "not eligible", "cannot be returned", "denied",
+            "not covered", "ineligible", "no refund", "deny"
+        ]
+        if any(k in decision_text for k in deny_keywords):
+            return "deny"
+
+        # approve — default for resolved tickets
         return "approve"
-    if "denied" in output_lower or "not eligible" in output_lower or "cannot" in output_lower:
-        return "deny"
 
-    return None
+    if status == "needs_info":
+        return "needs_info"
 
-
-def has_citations(output: str) -> bool:
-    """Check if the output contains citation markers."""
-    return "source:" in output.lower() or "chunk_" in output.lower()
+    return "unknown"
 
 
-def check_correct_escalation(expected: str, actual: Optional[str]) -> Optional[bool]:
-    """Only relevant for conflict and not_in_policy cases."""
-    if expected == "escalate":
-        return actual == "escalate"
-    return None
+def has_citations(result: ResolutionResult) -> bool:
+    """Check if result contains citation markers."""
+    text = (result.result or "") + (result.customer_response or "")
+    return "source:" in text.lower() or "chunk_" in text.lower()
 
 
 def run_single_case(case: dict, vectorstore) -> dict:
+    case_id     = case["case_id"]
     ticket_text = case["ticket_text"]
-    order = case["order"]
-    case_id = case["case_id"]
+    order       = case["order"]
+    expected    = case["expected_decision"]
 
     print(f"\n{'='*60}")
     print(f"Running: {case_id} [{case['category']}]")
-    print(f"Ticket: {ticket_text[:100]}...")
-    print(f"Expected: {case['expected_decision']}")
+    print(f"Ticket : {ticket_text[:80]}...")
+    print(f"Expected: {expected}")
 
     try:
-        start = time.time()
-        raw_output = resolve_ticket(ticket_text, order, vectorstore, verbose=False)
+        start  = time.time()
+        result = resolve_ticket(ticket_text, order, vectorstore, verbose=False)
         elapsed = round(time.time() - start, 2)
 
-        actual_decision = extract_decision(raw_output)
-        citations = has_citations(raw_output)
-        correct_esc = check_correct_escalation(case["expected_decision"], actual_decision)
-        passed = actual_decision == case["expected_decision"]
+        actual   = map_status_to_decision(result)
+        citations = has_citations(result)
+        passed   = actual == expected
 
-        print(f"Actual  : {actual_decision} | Citations: {citations} | Passed: {passed} | Time: {elapsed}s")
+        print(f"Actual  : {actual} | Status: {result.status} | Verdict: {result.verdict}")
+        print(f"Citations: {citations} | Passed: {passed} | Time: {elapsed}s")
 
-        # save raw output
+        # save raw result
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        (RESULTS_DIR / f"{case_id}.txt").write_text(raw_output, encoding="utf-8")
+        out = {
+            "case_id":   case_id,
+            "status":    result.status,
+            "verdict":   result.verdict,
+            "decision":  result.decision,
+            "result":    result.result,
+            "customer_response": result.customer_response,
+        }
+        (RESULTS_DIR / f"{case_id}.json").write_text(
+            json.dumps(out, indent=2), encoding="utf-8"
+        )
 
         return {
-            "case_id": case_id,
-            "category": case["category"],
-            "expected_decision": case["expected_decision"],
-            "actual_decision": actual_decision,
-            "has_citations": citations,
-            "correct_escalation": correct_esc,
-            "passed": passed,
-            "elapsed_seconds": elapsed,
-            "notes": case.get("notes", ""),
+            "case_id":            case_id,
+            "category":           case["category"],
+            "expected_decision":  expected,
+            "actual_decision":    actual,
+            "status":             result.status,
+            "verdict":            result.verdict,
+            "has_citations":      citations,
+            "passed":             passed,
+            "elapsed_seconds":    elapsed,
+            "notes":              case.get("notes", ""),
         }
 
     except Exception as e:
         print(f"ERROR on {case_id}: {e}")
         return {
-            "case_id": case_id,
-            "category": case["category"],
-            "expected_decision": case["expected_decision"],
-            "actual_decision": None,
-            "has_citations": False,
-            "correct_escalation": None,
-            "passed": False,
-            "elapsed_seconds": 0,
-            "notes": f"ERROR: {str(e)}",
+            "case_id":            case_id,
+            "category":           case["category"],
+            "expected_decision":  expected,
+            "actual_decision":    None,
+            "status":             "error",
+            "verdict":            None,
+            "has_citations":      False,
+            "passed":             False,
+            "elapsed_seconds":    0,
+            "notes":              f"ERROR: {str(e)}",
         }
 
 
 def generate_report(results: list[dict]) -> str:
-    total = len(results)
-    passed = sum(1 for r in results if r["passed"])
-    with_citations = sum(1 for r in results if r["has_citations"])
+    total   = len(results)
+    passed  = sum(1 for r in results if r["passed"])
+    cited   = sum(1 for r in results if r["has_citations"])
+    errors  = sum(1 for r in results if r["status"] == "error")
 
-    escalation_cases = [r for r in results if r["expected_decision"] == "escalate"]
-    correct_escalations = sum(1 for r in escalation_cases if r["correct_escalation"])
+    esc_cases    = [r for r in results if r["expected_decision"] == "escalate"]
+    esc_correct  = sum(1 for r in esc_cases if r["actual_decision"] == "escalate")
 
-    # unsupported claim rate — cases that passed but had no citations
-    passed_no_citations = sum(1 for r in results if r["passed"] and not r["has_citations"])
+    by_category: dict[str, list] = {}
+    for r in results:
+        by_category.setdefault(r["category"], []).append(r)
 
-    report = f"""# Bazario Agent Evaluation Report
+    report = f"""# Bazario Evaluation Report
 
 ## Summary
 
@@ -123,41 +150,43 @@ def generate_report(results: list[dict]) -> str:
 |---|---|
 | Total cases | {total} |
 | Passed | {passed} / {total} ({round(passed/total*100)}%) |
-| Citation coverage | {with_citations} / {total} ({round(with_citations/total*100)}%) |
-| Correct escalation rate | {correct_escalations} / {len(escalation_cases)} ({round(correct_escalations/max(len(escalation_cases),1)*100)}%) |
-| Passed but no citations | {passed_no_citations} |
+| Citation coverage | {cited} / {total} ({round(cited/total*100)}%) |
+| Correct escalation rate | {esc_correct} / {len(esc_cases)} |
+| Errors | {errors} |
 
-## Results by Case
+## Results by Category
 
-| Case ID | Category | Expected | Actual | Citations | Passed |
-|---|---|---|---|---|---|
 """
+    for cat, cat_results in by_category.items():
+        cat_passed = sum(1 for r in cat_results if r["passed"])
+        report += f"### {cat.title()} ({cat_passed}/{len(cat_results)} passed)\n\n"
+        report += "| Case ID | Expected | Actual | Status | Verdict | Citations | Pass |\n"
+        report += "|---|---|---|---|---|---|---|\n"
+        for r in cat_results:
+            report += (
+                f"| {r['case_id']} | {r['expected_decision']} | {r['actual_decision'] or '?'} "
+                f"| {r['status']} | {r['verdict'] or '?'} "
+                f"| {'yes' if r['has_citations'] else 'no'} "
+                f"| {'✅' if r['passed'] else '❌'} |\n"
+            )
+        report += "\n"
 
-    for r in results:
-        citations_str = "yes" if r["has_citations"] else "no"
-        passed_str = "pass" if r["passed"] else "FAIL"
-        report += (
-            f"| {r['case_id']} | {r['category']} | {r['expected_decision']} "
-            f"| {r['actual_decision'] or 'none'} | {citations_str} | {passed_str} |\n"
-        )
-
-    report += "\n## Notes\n"
-    for r in results:
-        if not r["passed"] or r["notes"].startswith("ERROR"):
-            report += f"- **{r['case_id']}**: {r['notes']}\n"
+    report += "## Failed Cases\n\n"
+    failed = [r for r in results if not r["passed"]]
+    if not failed:
+        report += "All cases passed.\n"
+    else:
+        for r in failed:
+            report += f"- **{r['case_id']}** [{r['category']}]: expected `{r['expected_decision']}`, got `{r['actual_decision']}` — {r['notes']}\n"
 
     return report
 
 
 def run_eval(case_ids: Optional[list[str]] = None):
-    """
-    Runs the full eval suite. Pass case_ids to run a subset.
-    e.g. run_eval(["TC-001", "TC-009"]) for spot checks.
-    """
     print("Loading policy corpus and vector index...")
-    docs = load_policies()
+    docs   = load_policies()
     chunks = chunk_documents(docs)
-    vs = get_or_build_index(chunks)
+    vs     = get_or_build_index(chunks)
 
     cases = load_test_cases()
     if case_ids:
@@ -168,18 +197,16 @@ def run_eval(case_ids: Optional[list[str]] = None):
     for case in cases:
         result = run_single_case(case, vs)
         results.append(result)
-        time.sleep(1)  # small delay to avoid hitting rate limits
+        time.sleep(2)  # small delay between cases
 
-    # save results JSON
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     results_path = RESULTS_DIR / "eval_results.json"
     results_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"\nResults saved to {results_path}")
 
-    # generate and save markdown report
     report = generate_report(results)
     REPORT_PATH.write_text(report, encoding="utf-8")
-    print(f"Report saved to {REPORT_PATH}")
+    print(f"Report  saved to {REPORT_PATH}")
     print("\n" + report)
 
     return results
@@ -187,11 +214,7 @@ def run_eval(case_ids: Optional[list[str]] = None):
 
 if __name__ == "__main__":
     import argparse
-
-    parser = argparse.ArgumentParser(description="Run evaluation suite.")
-    parser.add_argument(
-        "--cases", nargs="+", help="Specific case IDs to run (e.g. TC-001 TC-009)"
-    )
+    parser = argparse.ArgumentParser(description="Run Bazario evaluation suite.")
+    parser.add_argument("--cases", nargs="+", help="Specific case IDs (e.g. TC-001 TC-009)")
     args = parser.parse_args()
-
     run_eval(case_ids=args.cases)

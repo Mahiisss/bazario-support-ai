@@ -1,8 +1,9 @@
 import os
 import time
+import re
 from datetime import date
-from dotenv import load_dotenv
 from typing import Optional
+from dotenv import load_dotenv
 
 from crewai import Crew, Process
 
@@ -17,8 +18,34 @@ from config.config import cfg
 
 load_dotenv()
 
+# --- API Key Rotation ---
+_groq_keys = [
+    k for k in [
+        os.getenv("GROQ_API_KEY_1"),
+        os.getenv("GROQ_API_KEY_2"),
+        os.getenv("GROQ_API_KEY_3"),
+        os.getenv("GROQ_API_KEY"),  # fallback to single key
+    ]
+    if k
+]
 
-def get_llm():
+if not _groq_keys:
+    raise RuntimeError("No Groq API key found. Set GROQ_API_KEY or GROQ_API_KEY_1 in .env")
+
+_key_index = 0
+
+def get_next_key() -> str:
+    """Rotate to the next available API key."""
+    global _key_index
+    key = _groq_keys[_key_index % len(_groq_keys)]
+    _key_index += 1
+    return key
+
+def get_llm() -> str:
+    """Return LLM string with current API key set in environment."""
+    key = get_next_key()
+    os.environ["GROQ_API_KEY"] = key
+    print(f"[Bazario] Using API key ending in ...{key[-6:]}")
     return cfg.llm_model
 
 
@@ -44,7 +71,7 @@ def validate_order_dates(order: dict) -> list:
 
 
 def parse_compliance_verdict(compliance_output: str) -> str:
-    """Extract verdict from compliance output. Returns APPROVED, NEEDS REWRITE, or ESCALATE."""
+    """Extract verdict from compliance output."""
     for line in compliance_output.splitlines():
         line_upper = line.strip().upper()
         if line_upper.startswith("VERDICT:"):
@@ -65,53 +92,45 @@ def parse_compliance_verdict(compliance_output: str) -> str:
 
 
 def extract_customer_response(text: str) -> Optional[str]:
-    """Pull out the Customer Response Draft section from resolution text."""
-    import re
     match = re.search(
         r"##\s*Customer Response Draft\s*\n(.*?)(?=\n##|\Z)",
         text, re.DOTALL | re.IGNORECASE
     )
-    if match:
-        return match.group(1).strip()
-    return None
+    return match.group(1).strip() if match else None
 
 
 def extract_decision(text: str) -> Optional[str]:
-    """Pull out the Decision section from resolution text."""
-    import re
     match = re.search(
         r"##\s*Decision\s*\n(.*?)(?=\n##|\Z)",
         text, re.DOTALL | re.IGNORECASE
     )
-    if match:
-        return match.group(1).strip()
-    return None
+    return match.group(1).strip() if match else None
 
 
 def run_with_retry(crew: Crew, max_attempts: int = 5) -> str:
-    """Run a crew with rate-limit retry. No upfront sleep."""
+    """Run a crew with rate-limit retry and automatic key rotation."""
     for attempt in range(max_attempts):
         try:
             return str(crew.kickoff())
         except Exception as e:
             err = str(e).lower()
             if "rate_limit" in err or "429" in err:
-                wait = 60 * (attempt + 1)
-                print(f"\nRate limit hit. Waiting {wait}s before retry {attempt + 1}/{max_attempts}...")
+                # Rotate to next key before retrying
+                new_key = get_next_key()
+                os.environ["GROQ_API_KEY"] = new_key
+                print(f"[Bazario] Rate limit hit. Rotating to key ...{new_key[-6:]}")
+                wait = 30 * (attempt + 1)  # shorter wait since we're rotating keys
+                print(f"[Bazario] Waiting {wait}s before retry {attempt + 1}/{max_attempts}...")
                 time.sleep(wait)
             else:
                 raise e
-    raise RuntimeError("Failed after 5 attempts due to rate limits.")
+    raise RuntimeError("Failed after 5 attempts — all keys exhausted or rate limited.")
 
 
 def resolve_ticket(ticket: str, order: dict, vectorstore, verbose: bool = True) -> ResolutionResult:
-    """
-    Run the full agent pipeline and return a structured ResolutionResult.
-    No more raw string — api.py gets a proper dict-like object.
-    """
     llm = get_llm()
 
-    # --- Validate order dates before running any agents ---
+    # --- Validate order dates ---
     date_problems = validate_order_dates(order)
     if date_problems:
         problem_str = "; ".join(date_problems)
@@ -124,11 +143,11 @@ def resolve_ticket(ticket: str, order: dict, vectorstore, verbose: bool = True) 
         )
 
     # --- Build agents ---
-    triage      = get_triage_agent(llm)
+    triage       = get_triage_agent(llm)
     retriever, _ = get_policy_retriever_agent(llm, vectorstore)
-    writer      = get_resolution_writer_agent(llm)
-    compliance  = get_compliance_agent(llm)
-    escalation  = get_escalation_agent(llm)
+    writer       = get_resolution_writer_agent(llm)
+    compliance   = get_compliance_agent(llm)
+    escalation   = get_escalation_agent(llm)
 
     # --- Run 4-task pipeline ---
     t1, t2, t3, t4 = build_tasks(ticket, order, triage, retriever, writer, compliance)

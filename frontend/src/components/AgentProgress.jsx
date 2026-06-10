@@ -35,7 +35,7 @@ export default function AgentProgress({ agents, activeAgent, completedAgents, lo
               <div className="agent-info">
                 <p className="agent-name">{agent.label}</p>
                 <p className="agent-desc">
-                  {s === "active" ? agent.desc : s === "done" ? "Completed" : "Waiting..."}
+                  {s === "active" ? agent.desc : s === "done" ? "Completed" : agent.id === "escalation" && status === "resolved" ? "Not needed" : "Waiting..."}
                 </p>
               </div>
               <span className={`agent-status ${s}`}>

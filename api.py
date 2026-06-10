@@ -13,39 +13,29 @@ from core.vectorstore import get_or_build_index
 from crew import resolve_ticket
 from models import TicketInput
 from config.config import cfg
+from database import init_db, save_ticket, get_history, get_ticket_by_id
 
 load_dotenv()
 
 # --- Startup checks ---
-if not os.getenv("GROQ_API_KEY"):
-    raise RuntimeError("GROQ_API_KEY is not set. Add it to your .env file.")
+if not os.getenv("GROQ_API_KEY") and not os.getenv("GROQ_API_KEY_1"):
+    raise RuntimeError("No Groq API key found. Set GROQ_API_KEY or GROQ_API_KEY_1 in .env")
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
+# --- Build vector index ---
 print("Loading Bazario policy knowledge base...")
-docs = load_policies()
+docs   = load_policies()
 chunks = chunk_documents(docs)
-vs = get_or_build_index(chunks)
+vs     = get_or_build_index(chunks)
 print("Ready.")
 
-HISTORY_FILE = Path("outputs/history.json")
-OUTPUTS_DIR  = Path(cfg.outputs_dir)
-HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+# --- Init database ---
+init_db()
+
 ORDERS_FILE = Path("data/orders.json")
-
-
-def load_history():
-    if HISTORY_FILE.exists():
-        return json.loads(HISTORY_FILE.read_text())
-    return []
-
-
-def save_to_history(entry):
-    history = load_history()
-    history.insert(0, entry)
-    history = history[:50]
-    HISTORY_FILE.write_text(json.dumps(history, indent=2))
+OUTPUTS_DIR = Path(cfg.outputs_dir)
 
 
 def load_orders():
@@ -61,10 +51,11 @@ def lookup_order(order_id: str):
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({
-        "status": "ok",
-        "service": "Bazario Support API",
+        "status":          "ok",
+        "service":         "Bazario Support API",
         "policies_loaded": True,
-        "index_loaded": True
+        "index_loaded":    True,
+        "database":        "connected"
     })
 
 
@@ -72,14 +63,10 @@ def health():
 def resolve():
     data = request.get_json()
 
-    # --- Pydantic validation ---
     try:
         payload = TicketInput(**data)
     except Exception as e:
-        return jsonify({
-            "status": "error",
-            "error": f"Invalid request: {str(e)}"
-        }), 400
+        return jsonify({"status": "error", "error": f"Invalid request: {str(e)}"}), 400
 
     ticket_text = payload.ticket_text
     order_id    = payload.order_id
@@ -89,30 +76,30 @@ def resolve():
     # --- Order ID validation ---
     if not order_id or not order_id.strip():
         entry = {
-            "ticket_id": ticket_id,
-            "ticket_text": ticket_text,
-            "status": "needs_info",
+            "ticket_id":     ticket_id,
+            "ticket_text":   ticket_text,
+            "status":        "needs_info",
             "missing_fields": ["order_id"],
-            "message": "Please provide a valid Order ID so we can look up your order details.",
-            "result": None,
-            "timestamp": timestamp
+            "message":       "Please provide a valid Order ID so we can look up your order details.",
+            "result":        None,
+            "timestamp":     timestamp
         }
-        save_to_history(entry)
+        save_ticket(entry)
         return jsonify(entry), 200
 
     # --- Order lookup ---
     order = lookup_order(order_id.strip())
     if not order:
         entry = {
-            "ticket_id": ticket_id,
-            "ticket_text": ticket_text,
-            "status": "needs_info",
+            "ticket_id":     ticket_id,
+            "ticket_text":   ticket_text,
+            "status":        "needs_info",
             "missing_fields": ["order_id"],
-            "message": f"Order ID '{order_id}' not found. Please check and try again.",
-            "result": None,
-            "timestamp": timestamp
+            "message":       f"Order ID '{order_id}' not found. Please check and try again.",
+            "result":        None,
+            "timestamp":     timestamp
         }
-        save_to_history(entry)
+        save_ticket(entry)
         return jsonify(entry), 200
 
     # --- Run agent pipeline ---
@@ -132,13 +119,12 @@ def resolve():
             "missing_fields":    resolution.missing_fields,
             "timestamp":         timestamp
         }
-        save_to_history(entry)
+        save_ticket(entry)
 
-        # Save full resolution text to file
-        out_path = Path(f"outputs/resolutions/{ticket_id}.txt")
-        out_path.parent.mkdir(parents=True, exist_ok=True)
+        # Save resolution text to file
+        OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
         if resolution.result:
-            out_path.write_text(resolution.result)
+            (OUTPUTS_DIR / f"{ticket_id}.txt").write_text(resolution.result)
 
         return jsonify(entry), 200
 
@@ -152,19 +138,18 @@ def resolve():
             "result":      None,
             "timestamp":   timestamp
         }
-        save_to_history(entry)
+        save_ticket(entry)
         return jsonify(entry), 500
 
 
 @app.route("/history", methods=["GET"])
 def history():
-    return jsonify(load_history())
+    return jsonify(get_history(limit=50))
 
 
 @app.route("/history/<ticket_id>", methods=["GET"])
 def get_ticket(ticket_id):
-    history = load_history()
-    ticket = next((t for t in history if t["ticket_id"] == ticket_id), None)
+    ticket = get_ticket_by_id(ticket_id)
     if not ticket:
         return jsonify({"error": "Ticket not found"}), 404
     return jsonify(ticket)
