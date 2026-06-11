@@ -11,8 +11,6 @@
 [![Groq](https://img.shields.io/badge/Groq-Llama%203.3%2070B-F55036?style=flat)](https://groq.com)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=flat&logo=postgresql&logoColor=white)](https://supabase.com)
 [![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat&logo=react&logoColor=white)](https://vitejs.dev)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
-
 **[What It Does](#what-it-does) · [Pipeline](#pipeline) · [Tech Stack](#tech-stack) · [Setup](#setup) · [API](#api)**
 
 </div>
