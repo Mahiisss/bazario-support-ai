@@ -14,7 +14,6 @@ from crew import resolve_ticket
 from models import TicketInput
 from config.config import cfg
 from database import init_db, save_ticket, get_history, get_ticket_by_id
-
 load_dotenv()
 
 # --- Startup checks ---

@@ -3,6 +3,7 @@
 # 🛒 Bazario Support AI
 
 ### A multi-agent RAG system that resolves e-commerce support tickets using verified order data, semantic policy search, and citation-enforced AI responses.
+Policy-aware AI support system built with CrewAI, RAG, compliance review, and PostgreSQL persistence.
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
 [![CrewAI](https://img.shields.io/badge/CrewAI-Multi--Agent-FF4B4B?style=flat)](https://crewai.com)
@@ -337,6 +338,4 @@ Results are evaluated against structured `ResolutionResult` fields (status, verd
 
 ---
 
-## License
 
-MIT

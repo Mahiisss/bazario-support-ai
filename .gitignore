@@ -1,10 +1,32 @@
-.env
-.env.example
-venv/
+# ----- Python -----
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+venv/
+env/
+.venv/
+
+# ----- Environment / Secrets -----
+.env
+.env.local
+
+# ----- Build artifacts -----
 data/faiss_index/
 outputs/
-.vscode/
-frontend/node_modules/
+evaluation/results/
 
+# ----- Frontend -----
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ----- Editor / IDE -----
+.vscode/
+.idea/
+*.swp
+
+# ----- OS -----
+.DS_Store
+Thumbs.db
