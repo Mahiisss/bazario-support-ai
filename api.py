@@ -1,7 +1,7 @@
 import os
 import json
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -70,7 +70,13 @@ def resolve():
     ticket_text = payload.ticket_text
     order_id    = payload.order_id
     ticket_id   = payload.ticket_id or f"TKT-{uuid.uuid4().hex[:8].upper()}"
-    timestamp   = datetime.now().isoformat()
+
+    IST = timezone(timedelta(hours=5, minutes=30))
+    timestamp = datetime.now(IST).isoformat()
+ 
+
+
+
 
     # --- Order ID validation ---
     if not order_id or not order_id.strip():

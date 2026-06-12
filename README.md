@@ -3,6 +3,7 @@
 # 🛒 Bazario Support AI
 
 ### A multi-agent RAG system that resolves e-commerce support tickets using verified order data, semantic policy search, and citation-enforced AI responses.
+**Policy-aware AI support system built with CrewAI, RAG, compliance review, and PostgreSQL persistence.**
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
 [![CrewAI](https://img.shields.io/badge/CrewAI-Multi--Agent-FF4B4B?style=flat)](https://crewai.com)
@@ -18,7 +19,6 @@
 ---
 
 ## What It Does
-
 Bazario Support AI takes a customer support ticket and an order ID, looks up the verified order record, searches 25,000+ words of company policy using semantic vector search, drafts a fully cited resolution, and runs it through an independent compliance review before returning anything to the customer.
 
 Every factual claim in the response is traceable to a specific policy file and chunk ID. The system never trusts frontend-provided order data — it always fetches from the backend. If compliance isn't satisfied, the writer revises. If it still can't resolve, a structured escalation report goes to a human agent. Every ticket is persisted to PostgreSQL so history survives restarts.

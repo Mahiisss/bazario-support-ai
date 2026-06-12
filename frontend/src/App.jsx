@@ -13,7 +13,7 @@ const AGENTS = [
   { id: "escalation", label: "Escalation Agent",    desc: "Finalizing report" },
 ];
 
-const ANIMATION_MS = 15000;
+const ANIMATION_MS =  50000;
 
 export default function App() {
   const [resolution, setResolution]           = useState(null);
@@ -33,7 +33,7 @@ export default function App() {
   }, []);
 
   const simulateProgress = (agentsToShow) => {
-    const delays = [2000, 5000, 9000, 11000, 13000];
+    const delays = [2000, 5000, 9000, 11000, 15000];
     agentsToShow.forEach((agent, i) => {
       setTimeout(() => setActiveAgent(agent.id), delays[i]);
       setTimeout(() => {

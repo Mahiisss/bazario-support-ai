@@ -11,10 +11,10 @@ from crew import resolve_ticket
 OUTPUT_DIR = Path("outputs/resolutions")
 
 
-def save_result(ticket_id: str, result: str) -> None:
+def save_result(ticket_id: str, result: object) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out_path = OUTPUT_DIR / f"{ticket_id}.txt"
-    out_path.write_text(result, encoding="utf-8")
+    out_path.write_text(str(result), encoding="utf-8")
     print(f"Result saved to {out_path}")
 
 

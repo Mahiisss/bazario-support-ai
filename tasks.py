@@ -1,13 +1,47 @@
 import json
 from crewai import Task
 
+COMPLIANCE_CHECKS = (
+    "Review the resolution draft. Check for:\n"
+    "- Any claim not backed by a citation → mark UNSUPPORTED\n"
+    "- Decision made without evidence → mark MISSING CITATION\n"
+    "- Anything contradicting retrieved policy → mark POLICY VIOLATION\n\n"
+    "Return VERDICT: ESCALATE when ANY of the following are true:\n"
+    "- Customer threatens legal action\n"
+    "- Customer requests compensation beyond documented policy\n"
+    "- Multiple previous support attempts have failed\n"
+    "- Policy excerpts conflict with each other\n"
+    "- No policy coverage exists for the requested action\n"
+    "- A marketplace seller is actively refusing a valid customer claim\n"
+    "- Human judgment is required to make a decision\n"
+    "- Customer explicitly requests management or senior support review\n\n"
+    "Return VERDICT: NEEDS REWRITE when:\n"
+    "- A factual policy claim has no citation\n"
+    "- An invented policy or number not in retrieved chunks\n"
+    "- Decision directly contradicts cited policy\n\n"
+    "Return VERDICT: APPROVED when the resolution is factually grounded "
+    "and policy-aligned, even if not perfect.\n\n"
+    "Your output MUST start with exactly one of these on the first line:\n"
+    "VERDICT: APPROVED\n"
+    "VERDICT: NEEDS REWRITE\n"
+    "VERDICT: ESCALATE\n\n"
+    "Then continue with:\n"
+    "## Compliance Verdict\n"
+    "[APPROVED / NEEDS REWRITE / ESCALATE]\n\n"
+    "## Issues Found\n"
+    "[list each issue, or 'None']\n\n"
+    "## Final Resolution\n"
+    "[paste approved resolution, corrected version, "
+    "or 'ESCALATE TO HUMAN AGENT: [reason]']"
+)
+
+COMPLIANCE_EXPECTED = (
+    "First line must be VERDICT: [APPROVED/NEEDS REWRITE/ESCALATE], "
+    "followed by compliance verdict, issues found, and final resolution."
+)
+
 
 def build_tasks(ticket: str, order: dict, triage, retriever, writer, compliance):
-    """
-    4-task pipeline: triage → retrieval → writer → compliance.
-    Returns a tuple (t1, t2, t3, t4) so crew.py can reference them individually.
-    Escalation is NOT included — it only runs conditionally in crew.py.
-    """
     order_str = json.dumps(order, indent=2)
 
     t1 = Task(
@@ -38,7 +72,7 @@ def build_tasks(ticket: str, order: dict, triage, retriever, writer, compliance)
             "If nothing is found, return: NO_POLICY_FOUND."
         ),
         expected_output=(
-            "All relevant policy excerpts with citations (source file + chunk ID) for each."
+            "All relevant policy excerpts with citations (source file + chunk ID)."
         ),
         agent=retriever,
         context=[t1],
@@ -71,29 +105,8 @@ def build_tasks(ticket: str, order: dict, triage, retriever, writer, compliance)
     )
 
     t4 = Task(
-        description=(
-            "Review the resolution draft. Check for:\n"
-            "- Any claim not backed by a citation → mark UNSUPPORTED\n"
-            "- Decision made without evidence → mark MISSING CITATION\n"
-            "- Anything contradicting retrieved policy → mark POLICY VIOLATION\n"
-            "- Customer PII or sensitive data visible → mark DATA LEAK\n\n"
-            "Your output MUST start with exactly one of these on the first line:\n"
-            "VERDICT: APPROVED\n"
-            "VERDICT: NEEDS REWRITE\n"
-            "VERDICT: ESCALATE\n\n"
-            "Then continue with:\n"
-            "## Compliance Verdict\n"
-            "[APPROVED / NEEDS REWRITE / ESCALATE]\n\n"
-            "## Issues Found\n"
-            "[list each issue, or 'None']\n\n"
-            "## Final Resolution\n"
-            "[paste approved resolution, corrected version, "
-            "or 'ESCALATE TO HUMAN AGENT: [reason]']"
-        ),
-        expected_output=(
-            "First line must be VERDICT: [APPROVED/NEEDS REWRITE/ESCALATE], "
-            "followed by compliance verdict, issues found, and final resolution."
-        ),
+        description=COMPLIANCE_CHECKS,
+        expected_output=COMPLIANCE_EXPECTED,
         agent=compliance,
         context=[t2, t3],
     )
@@ -103,11 +116,6 @@ def build_tasks(ticket: str, order: dict, triage, retriever, writer, compliance)
 
 def build_rewrite_tasks(ticket: str, order: dict, writer, compliance,
                         prior_compliance_output: str, t1, t2):
-    """
-    Called when compliance says NEEDS REWRITE.
-    Writer gets the compliance feedback and tries again.
-    Compliance then re-reviews the new draft.
-    """
     order_str = json.dumps(order, indent=2)
 
     rt3 = Task(
@@ -134,25 +142,8 @@ def build_rewrite_tasks(ticket: str, order: dict, writer, compliance,
     )
 
     rt4 = Task(
-        description=(
-            "Review this rewritten resolution draft. Apply the same checks:\n"
-            "- Uncited claims → UNSUPPORTED\n"
-            "- Decision without evidence → MISSING CITATION\n"
-            "- Contradicts policy → POLICY VIOLATION\n"
-            "- PII visible → DATA LEAK\n\n"
-            "Your output MUST start with exactly one of:\n"
-            "VERDICT: APPROVED\n"
-            "VERDICT: NEEDS REWRITE\n"
-            "VERDICT: ESCALATE\n\n"
-            "Then:\n"
-            "## Compliance Verdict\n"
-            "## Issues Found\n"
-            "## Final Resolution"
-        ),
-        expected_output=(
-            "First line: VERDICT: [APPROVED/NEEDS REWRITE/ESCALATE], "
-            "then compliance verdict, issues, and final resolution."
-        ),
+        description=COMPLIANCE_CHECKS,
+        expected_output=COMPLIANCE_EXPECTED,
         agent=compliance,
         context=[t1, t2, rt3],
     )
@@ -161,9 +152,6 @@ def build_rewrite_tasks(ticket: str, order: dict, writer, compliance,
 
 
 def build_escalation_task(ticket: str, order: dict, escalation, t1, t2, t4) -> Task:
-    """
-    Only created and run when compliance verdict is ESCALATE.
-    """
     order_str = json.dumps(order, indent=2)
 
     return Task(
